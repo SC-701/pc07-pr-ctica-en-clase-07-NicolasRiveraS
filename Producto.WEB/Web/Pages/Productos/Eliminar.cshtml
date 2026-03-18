@@ -1,0 +1,73 @@
+@page
+@model Web.Pages.Productos.EliminarModel
+@{
+    ViewData["Title"] = "Eliminar Producto";
+}
+
+<section class="page-card">
+    <div class="section-header">
+        <div>
+            <h3>Confirmar eliminación</h3>
+        </div>
+    </div>
+
+    <div class="confirm-layout">
+        <div class="confirm-card">
+            <div class="d-flex gap-3 align-items-start mb-4">
+                <div class="confirm-avatar">
+                    <i class="bi bi-trash3-fill"></i>
+                </div>
+                <div>
+                    <h4 class="confirm-title">@Model.producto.Nombre</h4>
+                    <p class="confirm-subtitle">@Model.producto.Categoria / @Model.producto.SubCategoria</p>
+                </div>
+            </div>
+
+            <div class="warning-strip mb-4">
+                Estás a punto de eliminar este registro del sistema.
+            </div>
+
+            <div class="spec-grid mb-4">
+                <article class="spec-card">
+                    <div class="label">Nombre</div>
+                    <div class="value">@Model.producto.Nombre</div>
+                </article>
+                <article class="spec-card">
+                    <div class="label">Categoría</div>
+                    <div class="value">@Model.producto.Categoria</div>
+                </article>
+                <article class="spec-card">
+                    <div class="label">Subcategoría</div>
+                    <div class="value">@Model.producto.SubCategoria</div>
+                </article>
+                <article class="spec-card">
+                    <div class="label">Precio</div>
+                    <div class="value">₡ @Model.producto.Precio.ToString("N2")</div>
+                </article>
+                <article class="spec-card">
+                    <div class="label">Stock</div>
+                    <div class="value">@Model.producto.Stock</div>
+                </article>
+                <article class="spec-card">
+                    <div class="label">Código de barras</div>
+                    <div class="value">@Model.producto.CodigoBarras</div>
+                </article>
+            </div>
+
+            <form method="post">
+                <div class="form-actions">
+                    <a class="btn-shell-outline" asp-page="./Index">
+                        <i class="bi bi-x-circle"></i>
+                        Cancelar
+                    </a>
+                    <button type="submit" class="btn-shell-danger">
+                        <i class="bi bi-trash3-fill"></i>
+                        Eliminar definitivamente
+                    </button>
+                </div>
+
+                <input type="hidden" asp-for="producto.Id" />
+            </form>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,77 @@
+@page
+@model Web.Pages.Productos.DetalleModel
+@{
+    ViewData["Title"] = "Detalle del Producto";
+}
+
+<section class="page-card">
+    <div class="section-header">
+        <div>
+            <h3>Detalle del producto</h3>
+        </div>
+        <div class="form-actions m-0">
+            <a class="btn-shell-outline" asp-page="./Index">
+                <i class="bi bi-arrow-left"></i>
+                Regresar
+            </a>
+            <a class="btn-shell-warn" asp-page="./Editar" asp-route-id="@Model.producto.Id">
+                <i class="bi bi-pencil-square"></i>
+                Editar
+            </a>
+        </div>
+    </div>
+
+    <div class="detail-layout">
+        <aside class="detail-card detail-card-side">
+            <div class="d-flex gap-3 align-items-start">
+                <div class="detail-avatar">
+                    <i class="bi bi-box-seam-fill"></i>
+                </div>
+                <div>
+                    <h4 class="detail-title">@Model.producto.Nombre</h4>
+                    <p class="detail-subtitle">Registro #@Model.producto.Id</p>
+                </div>
+            </div>
+
+            <div class="detail-stat">
+                <div class="label">Categoría</div>
+                <div class="value">@Model.producto.Categoria</div>
+            </div>
+
+            <div class="detail-stat">
+                <div class="label">Subcategoría</div>
+                <div class="value">@Model.producto.SubCategoria</div>
+            </div>
+
+            <div class="detail-stat">
+                <div class="label">Precio</div>
+                <div class="value">₡ @Model.producto.Precio.ToString("N2")</div>
+            </div>
+        </aside>
+
+        <div class="d-flex flex-column gap-3">
+            <div class="spec-grid">
+                <article class="spec-card">
+                    <div class="label">Nombre</div>
+                    <div class="value">@Model.producto.Nombre</div>
+                </article>
+                <article class="spec-card">
+                    <div class="label">Código de barras</div>
+                    <div class="value">@Model.producto.CodigoBarras</div>
+                </article>
+                <article class="spec-card">
+                    <div class="label">Stock</div>
+                    <div class="value">@Model.producto.Stock</div>
+                </article>
+                <article class="spec-card">
+                    <div class="label">Precio USD</div>
+                    <div class="value">$ @Model.producto.PrecioUSD.ToString("N2")</div>
+                </article>
+                <article class="spec-card field-span-2">
+                    <div class="label">Descripción</div>
+                    <div class="value">@Model.producto.Descripcion</div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>

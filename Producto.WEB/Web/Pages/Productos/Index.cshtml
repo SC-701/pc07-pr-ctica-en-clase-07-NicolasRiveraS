@@ -1,0 +1,94 @@
+@page
+@model Web.Pages.Productos.IndexModel
+@{
+    ViewData["Title"] = "Productos";
+    var totalProductos = Model.productos?.Count ?? 0;
+}
+
+<section class="page-card">
+    <div class="page-hero">
+        <div>
+            <h2>Productos registrados</h2>
+        </div>
+
+        <div class="hero-panel">
+            <div class="value">@totalProductos</div>
+        </div>
+    </div>
+</section>
+
+<section class="page-card">
+    <div class="section-header">
+        <div>
+            <h3>Listado de productos</h3>
+        </div>
+        <a class="btn-shell" asp-page="./Agregar">
+            <i class="bi bi-plus-circle-fill"></i>
+            Agregar producto
+        </a>
+    </div>
+
+    @if (totalProductos > 0) {
+        <div class="list-grid">
+            @foreach (var producto in Model.productos) {
+                <article class="vehicle-card">
+                    <div class="vehicle-card-top">
+                        <div class="d-flex gap-3 align-items-start">
+                            <div class="vehicle-avatar">
+                                <i class="bi bi-box-seam-fill"></i>
+                            </div>
+                            <div>
+                                <h4 class="vehicle-title">@producto.Nombre</h4>
+                                <p class="vehicle-subtitle">@producto.Categoria / @producto.SubCategoria</p>
+                            </div>
+                        </div>
+                        <span class="soft-chip">
+                            <i class="bi bi-upc-scan"></i>
+                            @producto.CodigoBarras
+                        </span>
+                    </div>
+
+                    <div class="vehicle-meta">
+                        <span class="soft-chip"><i class="bi bi-tag-fill"></i> ₡ @producto.Precio.ToString("N2")</span>
+                        <span class="soft-chip"><i class="bi bi-boxes"></i> Stock: @producto.Stock</span>
+                    </div>
+
+                    <div class="vehicle-specs">
+                        <div class="spec-item">
+                            <div class="label">Descripción</div>
+                            <div class="value">@producto.Descripcion</div>
+                        </div>
+                    </div>
+
+                    <div class="actions-row">
+                        <a class="btn-shell-outline" asp-page="./Detalle" asp-route-id="@producto.Id">
+                            <i class="bi bi-eye-fill"></i>
+                            Detalle
+                        </a>
+                        <a class="btn-shell-warn" asp-page="./Editar" asp-route-id="@producto.Id">
+                            <i class="bi bi-pencil-square"></i>
+                            Editar
+                        </a>
+                        <a class="btn-shell-danger" asp-page="./Eliminar" asp-route-id="@producto.Id">
+                            <i class="bi bi-trash3-fill"></i>
+                            Eliminar
+                        </a>
+                    </div>
+                </article>
+            }
+        </div>
+    }
+    else {
+        <div class="blank-card">
+            <div class="placeholder-avatar mx-auto">
+                <i class="bi bi-inboxes-fill"></i>
+            </div>
+            <h4>No hay productos disponibles</h4>
+            <p>El módulo está listo, pero aún no existen registros para mostrar en esta vista.</p>
+            <a class="btn-shell" asp-page="./Agregar">
+                <i class="bi bi-plus-circle-fill"></i>
+                Crear el primero
+            </a>
+        </div>
+    }
+</section>

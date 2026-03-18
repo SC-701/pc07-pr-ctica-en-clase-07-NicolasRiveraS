@@ -1,0 +1,113 @@
+@page
+@model Web.Pages.Productos.AgregarModel
+@{
+    ViewData["Title"] = "Agregar Producto";
+}
+
+<section class="page-card">
+    <div class="section-header">
+        <div>
+            <h3>Agregar producto</h3>
+        </div>
+        <a class="btn-shell-outline" asp-page="./Index">
+            <i class="bi bi-arrow-left"></i>
+            Volver al listado
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="data-card">
+            <form method="post">
+                <div class="form-grid">
+                    <div class="field-group">
+                        <label for="categorias">Categoría</label>
+                        <select asp-for="categoriaSeleccionada" class="form-select" asp-items="Model.categorias" id="categorias" onchange="fetchSubCategorias()">
+                            <option value="">Seleccione una categoría</option>
+                        </select>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="subcategorias">Subcategoría</label>
+                        <select asp-for="producto.IdSubCategoria" class="form-select" asp-items="Model.subCategorias" id="subcategorias">
+                            <option value="">Seleccione una subcategoría</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="producto.IdSubCategoria"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label asp-for="producto.Nombre">Nombre</label>
+                        <input class="form-control" asp-for="producto.Nombre" />
+                        <span class="text-danger" asp-validation-for="producto.Nombre"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label asp-for="producto.Precio">Precio</label>
+                        <input class="form-control" asp-for="producto.Precio" />
+                        <span class="text-danger" asp-validation-for="producto.Precio"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label asp-for="producto.Stock">Stock</label>
+                        <input class="form-control" asp-for="producto.Stock" />
+                        <span class="text-danger" asp-validation-for="producto.Stock"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label asp-for="producto.CodigoBarras">Código de barras</label>
+                        <input class="form-control" asp-for="producto.CodigoBarras" />
+                        <span class="text-danger" asp-validation-for="producto.CodigoBarras"></span>
+                    </div>
+
+                    <div class="field-group field-span-2">
+                        <label asp-for="producto.Descripcion">Descripción</label>
+                        <textarea class="form-control" asp-for="producto.Descripcion" rows="4"></textarea>
+                        <span class="text-danger" asp-validation-for="producto.Descripcion"></span>
+                    </div>
+                </div>
+
+                <div class="text-danger mb-3" asp-validation-summary="All"></div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-shell">
+                        <i class="bi bi-check2-circle"></i>
+                        Agregar producto
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        async function fetchSubCategorias() {
+            const categoriaId = document.getElementById('categorias').value;
+            const subCategoriasSelect = document.getElementById('subcategorias');
+            subCategoriasSelect.innerHTML = '<option value="">Seleccione una subcategoría</option>';
+
+            if (!categoriaId) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`?handler=ObtenerSubCategorias&categoriaId=${categoriaId}`);
+                if (!response.ok) {
+                    throw new Error('Error obteniendo los datos');
+                }
+
+                const subCategorias = await response.json();
+                subCategorias.forEach(subCategoria => {
+                    const option = document.createElement('option');
+                    option.value = subCategoria.id;
+                    option.text = subCategoria.nombre;
+                    subCategoriasSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error obteniendo los datos:', error);
+            }
+        }
+    </script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
